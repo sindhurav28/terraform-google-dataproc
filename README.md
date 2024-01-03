@@ -90,12 +90,12 @@ Inputs
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
 | project \_id | The ID of the project to create the Dataproc Cluster & Job | 'string' | n/a | yes |
-| region | Region of the dataproc Cluster & Job | 'string | n/a | yes |
+| region | Region of the dataproc Cluster & Job | 'string' | n/a | yes |
 | force_delete | Force delete Dataproc job. Default is false | 'bool' | False | no |
 | cluster_name | Dataproc Cluster Name | 'string' | n/a | yes |
 | create_cluster | True/False: If we want to create a Dataproc cluster along with the job | 'bool' | True | yes |
 | graceful_decommission_timeout | Graceful decomissioning time in 's' or 'ms when you change the number of worker nodes directly through terraform apply. | 'string' | null | no |
-| cluster_labels | Labels to be attached to the Dataproc Cluster | map(string) | null | no |
+| cluster_labels | Labels to be attached to the Dataproc Cluster | 'map(string)' | null | no |
 | cluster_staging_bucket | The cloud storage staging bucket used to stage files, such as Hadoop jars, between client machines and the cluster | 'string' | auto-created by GCP | no |
 | cluster_version | The image version of DataProc to be used | 'string' | "2.1.27-debian11" | no |
 | kms_location | KMS key location to populate your local variable for KMS key | 'string' | "us-east4" | no |
@@ -109,8 +109,7 @@ Inputs
 | master_disk_size | size of the primary disk attached to each master node, specified in GB | 'number' | "500" | no |
 | master_local_ssd | The local SSD disks that will be attached to each master cluster node | 'number | "0" | no |
 | master_min_cpu_platform | The name of a minimum generation of cpu family for the master | 'string' | None | no |
-| master_accelerator | The number and type of the accelerator cards exposed to the master instance |'list(object({ count = number, type
-= string }))' | [] | no |
+| master_accelerator | The number and type of the accelerator cards exposed to the master instance |'list(object({ count = number, type= string }))' | [] | no |
 | image _uri | Use a custom image to load pre-installed packages | 'string' | None | no |
 | worker_instance_type | The disk type of the primary disk attached to each worker node. One of 'pd-ssd" or 'pd-standard'. | 'string' |
 "pd-standard" | no |
