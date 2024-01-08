@@ -100,29 +100,27 @@ Inputs
 | cluster_version | The image version of DataProc to be used | 'string' | "2.1.27-debian11" | no |
 | kms_location | KMS key location to populate your local variable for KMS key | 'string' | "us-east4" | no |
 | cluster_temp_bucket | The Cloud storage temp bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files | 'string' | auto-created by GCP | no |
-| cluster_optional_comp | The set of optional components to activate on the cluster like Anaconda, Docker, etc | 'set(string') | None | no |
+| cluster_optional_comp | The set of optional components to activate on the cluster like Anaconda, Docker, etc | 'set(string)' | None | no |
 | cluster_override_properties | A list of override and additional properties(key/value) used to modify the common configuration files used when creating a cluster. See cluster properties under references | 'map(string)' | None | no |
 | initialization_action | Script: The script to be executed during initialization of the cluster; timeout: Maximum duration(sec) in which script is allowed to take to execute its action | 'list(object({ script = string, timeout_ sec = optional(number, 300)  }))' | [] | no |
 | master_ha | set to 'true' to enable 3 master nodes (HA) or 'false' for only 1 master node | 'bool' | False | no |
 | master_instance_type | The instance type of the master node | 'string' | "n1-standard-4" | no |
-| master_disk_type | The disk type of the primary disk attached to each master node, one of 'pd-ssd' or 'pd-standard' | string | "pd-standard" | no |
+| master_disk_type | The disk type of the primary disk attached to each master node, one of 'pd-ssd' or 'pd-standard' | 'string' | "pd-standard" | no |
 | master_disk_size | size of the primary disk attached to each master node, specified in GB | 'number' | "500" | no |
-| master_local_ssd | The local SSD disks that will be attached to each master cluster node | 'number | "0" | no |
+| master_local_ssd | The local SSD disks that will be attached to each master cluster node | 'number | 0 | no |
 | master_min_cpu_platform | The name of a minimum generation of cpu family for the master | 'string' | None | no |
 | master_accelerator | The number and type of the accelerator cards exposed to the master instance |'list(object({ count = number, type= string }))' | [] | no |
-| image _uri | Use a custom image to load pre-installed packages | 'string' | None | no |
-| worker_instance_type | The disk type of the primary disk attached to each worker node. One of 'pd-ssd" or 'pd-standard'. | 'string' |
-"pd-standard" | no |
+| image_uri | Use a custom image to load pre-installed packages | 'string' | None | no |
+| worker_instance_type | The disk type of the primary disk attached to each worker node. One of 'pd-ssd" or 'pd-standard'. | 'string' |"pd-standard" | no |
 | worker_disk_size | size of the primary disk attached to each worker node, specified in GB. | 'number' | 500 | no |
-| worker_min_cpu_platform | The name of a minimum generation of CPU family for the worker. | string | None | no
+| worker_min_cpu_platform | The name of a minimum generation of CPU family for the worker. | 'string' | None | no
 | worker_local_ssd | Local SSD disks that will be attached to each worker cluster node. | 'number' | 0 | no |
-| worker_accelerator | The number and type of the accelerator cards exposed to the worker instance | 'string' | 'list(object({count = number, type = string }))' | [] | no |
+| worker_accelerator | The number and type of the accelerator cards exposed to the worker instance | 'list(object({count = number, type = string }))' | [] | no |
 | secondary_worker_min_instances | The minimum number of secondary worker instances | 'number' | 0 | no |
 | preemptibility | Preemptibility of the secondary workers. If specified the secondary worker VMs | string | "PREEMPTIBLE" | no |   
-| secondary_worker_disk_type | The disk type of the primary disk attached to each secondary worker node. One of 'pd-ssd' or pd-standard | 'string' | "pd-standard | no |
+| secondary_worker_disk_type | The disk type of the primary disk attached to each secondary worker node. One of 'pd-ssd' or 'pd-standard' |'string' | "pd-standard" | no |
 | secondary_worker_disk _size | size of the primary disk attached to each secondary worker node, specified in GB. | 'number' | 500 | no |
-| secondary_worker_local_ssd | The amount of local SSD disks that will be attached to each secondary worker cluster node. | 'number' |
-| no |
+| secondary_worker_local_ssd | The amount of local SSD disks that will be attached to each secondary worker cluster node. | 'number' | 0 | no |
 | network | The name or self_link of the Google Compute Engine network to the cluster will be part of. Conflicts with subnetwork | 'string' | default | no |
 | gce_zone | The GCP zone where your data is stored and used (i.e. where the master and the worker nodes will be created in) | 'string' | null | no |
 | gce_cluster_tags | The list of instance tags applied to instances in the cluster. Tags are used to identify valid sources or targets for network firewalls | 'set(string)' | [] | no |
@@ -133,18 +131,14 @@ Inputs
 | shield_enable_vtpm | Defines whether instances have the VTPM enabled. | 'bool' | null | no | 
 | shield_intergrity_mon | Defines whether instances have integrity monitoring enabled. | 'bool' | null | no | 
 | node_group_uri | The URI of a sole-tenant node group resource that the cluster will be created on. | 'string' |null | no |
-| idle_delete_ttl | The duration to keep the cluster alive while idling (no jobs running). After this TTL, the cluster will be deleted.
-valid range: [10m, 14d]. | 'string' | null | no |
-| auto_delete_time | The time when cluster will be auto-deleted. A timestamp in RFC3339 UTC 'Zulu' format, accurate to nanoseconds.
-'string' | null | no |
-| enable_http_port_access | The flag to enable http access to specific ports on the cluster from external sources (aka Component
-Gateway). | 'bool' | False | no |
+| idle_delete_ttl | The duration to keep the cluster alive while idling (no jobs running). After this TTL, the cluster will be deleted. Valid range: [10m, 14d] | 'string' | null | no |
+| auto_delete_time | The time when cluster will be auto-deleted. A timestamp in RFC3339 UTC 'Zulu' format, accurate to nanoseconds |'string' | null | no |
+| enable_http_port_access | The flag to enable http access to specific ports on the cluster from external sources (aka ComponentGateway). | 'bool' | False | no |
 | dataproc_metastore_service | Resource name of an existing Dataproc Metastore service. Only resource names including projectid and location (region) are valid | 'string' | null | no |
-| metric_source | Required to enable custom metric collection. Specify one or more of the following metric sources:
-[MONITORING_AGENT_DEFAULTS HDFS SPARK YARN SPARK_HISTORY_SERVER HIVESERVER2] | 'string' | <default-sa> | no |
+| metric_source | Required to enable custom metric collection. Specify one or more of the following metric sources: [MONITORING_AGENT_DEFAULTS HDFS SPARK YARN SPARK_HISTORY_SERVER HIVESERVER2] | 'string' | <default-sa> | no |
 | metric_overrides | One or more available OSs metrics to collect for the metric course | 'set(string)' | [] | no |
 | dataproc_job_labels | Labels to be attached to the Dataproc Cluster | 'map(string)' | {} | no |
-| scheduling | Maximun driver restarts per hour and in total | 'object({ max_failures_per_ hour = string, max_failures_total=string | null | no |
+| scheduling | Maximun driver restarts per hour and in total | 'object({ max_failures_per_ hour = string, max_failures_total=string})' | null | no |
 | pyspark_config | pyspark job configuration | 'any' | {} | no |
 | spark_config | spark job configuration | 'any | {} | no |
 | hadoop_config | hadoop job configuration | 'any' | {} | no |
