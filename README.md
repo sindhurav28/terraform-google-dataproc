@@ -1,5 +1,6 @@
 # terraform-google-dataproc
 Terraform module for creating Dataproc jobs and Dataproc cluster on Google Cloud.
+Currently, Google Cloud doesn't provide any terraform module for Dataproc.
 
 ## Features
 This module creates a Dataproc Cluster(currently only clusters on Compute Engine is supported) and a Dataproc job. If you want to use an existing cluster to create a dataproc job, the value for create cluster should be set "false" and call the existing cluster from data/locals block.
